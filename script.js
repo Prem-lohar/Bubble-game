@@ -4,13 +4,35 @@ var hit;
 
 function makebubble() {
     var bub = "";
-    for (var i = 0; i < 168; i++) {
+    var container = document.querySelector(".bottom");
+    container.innerHTML = ""; // Clear existing bubbles
+    
+    // Get container dimensions
+    var width = container.offsetWidth;
+    var height = container.offsetHeight;
+    
+    // Calculate bubble size including gap (approximate)
+    var bubbleSize = window.innerWidth <= 768 ? 50 : 60; // 40/35px + gaps
+    
+    // Calculate how many bubbles can fit
+    var columns = Math.floor(width / bubbleSize);
+    var rows = Math.floor(height / bubbleSize);
+    var totalBubbles = columns * rows;
+
+    if (totalBubbles < 20) totalBubbles = 20; // Fallback for very small screens
+
+    for (var i = 0; i < totalBubbles; i++) {
         var ran = Math.floor(Math.random() * 10);
         bub += `<div class="bubble">${ran}</div>`;
     }
-    var a = document.querySelector(".bottom")
-    a.innerHTML = bub;
+    container.innerHTML = bub;
 }
+
+// Handle window resizing to keep the container full
+window.addEventListener("resize", function() {
+    makebubble();
+});
+
 
 function makehit() {
     hit = Math.floor(Math.random() * 10);
